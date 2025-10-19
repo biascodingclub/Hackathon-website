@@ -25,45 +25,64 @@ export default function Hero() {
       }
     }
 
+    calculateTimeLeft()
     const timer = setInterval(calculateTimeLeft, 1000)
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <section className="relative min-h-screen pt-20 flex items-center overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-space-pattern opacity-5" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-space-dark/50 to-space-dark" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--neon-purple),0.15),transparent_50%),radial-gradient(ellipse_at_bottom,rgba(var(--neon-pink),0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(8,8,20,0.5)] to-[rgb(8,8,20)]" />
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
         {/* Main Title */}
-        <h1 className="font-pixel text-4xl md:text-6xl lg:text-7xl text-white mb-6 neon-glow">
+        <h1 className="font-pixel text-4xl md:text-6xl lg:text-7xl text-white mb-4 neon-text glitch-effect">
           STATUS{' '}
-          <span className="text-neon-pink">CODE</span>{' '}
-          <span className="text-neon-purple">1</span>
+          <span className="text-[rgb(var(--neon-pink))]">CODE</span>{' '}
+          <span className="text-[rgb(var(--neon-purple))]">1</span>
         </h1>
         
         {/* Subtitle */}
-        <p className="font-pixel text-xl md:text-2xl text-neon-blue mb-12">
-          Hack The Future. Build The Unknown.
+        <p className="font-pixel text-xl md:text-2xl text-[rgb(var(--neon-blue))] mb-8 opacity-0 animate-[fadeIn_1s_ease-in_forwards_0.5s]">
+          Build To Discover!
+        </p>
+
+        {/* Timer Label */}
+        <p className="font-pixel text-lg text-white mb-4">
+          Hacking ends in:
         </p>
 
         {/* Countdown Timer */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-12">
-          {Object.entries(timeLeft).map(([key, value]) => (
-            <div key={key} className="bg-space-light p-4 pixel-corners">
-              <div className="font-pixel text-2xl md:text-3xl text-neon-pink">
-                {String(value).padStart(2, '0')}
+        <div className="relative max-w-2xl mx-auto mb-8">
+          <div className="absolute inset-0 bg-[rgba(var(--neon-purple),0.03)] rounded-2xl backdrop-blur-xl"></div>
+          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-3 p-4">
+            {Object.entries(timeLeft).map(([key, value]) => (
+              <div 
+                key={key} 
+                className="group relative bg-[rgba(255,255,255,0.03)] rounded-lg overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[rgba(var(--neon-purple),0.2)] to-[rgba(var(--neon-pink),0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative p-4 backdrop-blur-lg transform hover:scale-105 transition-all duration-500">
+                  <div className="font-pixel text-2xl md:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[rgb(var(--neon-purple))] to-[rgb(var(--neon-pink))] mb-1">
+                    {String(value).padStart(2, '0')}
+                  </div>
+                  <div className="text-xs font-space-mono text-gray-300 uppercase tracking-wider group-hover:text-white transition-colors duration-300">
+                    {key}
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[rgb(var(--neon-purple))] to-[rgb(var(--neon-pink))] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                </div>
               </div>
-              <div className="text-sm text-gray-400 mt-1 capitalize">{key}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Main Character */}
-        <div className="relative w-64 h-64 md:w-96 md:h-96 mx-auto mb-12">
+        <div className="relative w-48 h-48 md:w-72 md:h-72 mx-auto mb-8">
           <Image
             src="/images/hero-character.png"
             alt="Pixel Art Character"
@@ -74,23 +93,25 @@ export default function Hero() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="space-x-4 mb-12">
-          <button className="font-pixel text-lg px-8 py-3 bg-neon-purple text-white hover:bg-neon-pink transition-colors duration-300 pixel-corners retro-shadow">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+          <button className="font-pixel text-base px-6 py-3 bg-[rgb(var(--neon-purple))] text-white hover:bg-[rgb(var(--neon-pink))] transition-all duration-300 pixel-border rounded-lg transform hover:scale-105 hover:rotate-1">
             Join Mission
           </button>
-          <button className="font-pixel text-lg px-8 py-3 border-2 border-neon-blue text-neon-blue hover:bg-neon-blue/10 transition-colors duration-300 pixel-corners">
+          <button className="font-pixel text-base px-6 py-3 border-2 border-[rgb(var(--neon-blue))] text-[rgb(var(--neon-blue))] hover:bg-[rgba(var(--neon-blue),0.1)] transition-all duration-300 pixel-border rounded-lg transform hover:scale-105 hover:-rotate-1">
             Learn More
           </button>
         </div>
 
         {/* Quick Stats */}
-        <div className="font-pixel text-neon-pink animate-pulse text-sm md:text-base">
-          48 Hours • 200+ Hackers • $5000 in Prizes
+        <div className="font-space-mono text-[rgb(var(--neon-pink))] text-xs md:text-sm bg-[rgba(255,255,255,0.05)] backdrop-blur-sm px-4 py-2 rounded-full inline-block">
+          <span className="inline-block hover:animate-[bounce_1s_infinite]">48 Hours</span> • 
+          <span className="inline-block hover:animate-[bounce_1s_infinite]">200+ Hackers</span> • 
+          <span className="inline-block hover:animate-[bounce_1s_infinite]">$5000 in Prizes</span>
         </div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-space-dark to-transparent" />
-    </section>
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[rgb(8,8,20)] to-transparent" />
+    </div>
   )
 }

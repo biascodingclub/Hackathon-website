@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import StarField from '../components/StarField';
 
 export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
@@ -76,6 +77,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#0B0B1E] text-white overflow-x-hidden">
+      <StarField />
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-[#0B0B1E]/80 backdrop-blur-sm border-b border-[#FF00FF]/20">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -93,33 +95,33 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 text-center relative">
+      <section className="pt-32 pb-40 text-center relative">
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10" />
         <h1 className="font-pixel text-6xl mb-4 text-glow">STATUS CODE 1</h1>
-        <p className="text-[#FF00FF] mb-8 font-pixel">Build to Discover!</p>
+        <p className="text-[#FF00FF] mb-12 font-pixel text-xl">Build to Discover!</p>
         
         {/* Timer */}
-        <div className="max-w-lg mx-auto bg-[#151531]/50 rounded-lg p-6 mb-12 backdrop-blur-sm">
-          <p className="text-sm mb-2 text-gray-300">Hacking ends in:</p>
-          <div className="grid grid-cols-4 gap-4">
+        <div className="max-w-3xl mx-auto bg-[#151531]/50 rounded-xl p-10 mb-20 backdrop-blur-md border border-[#FF00FF]/10 hover:border-[#FF00FF]/30 transition-colors duration-500">
+          <p className="font-pixel text-xl mb-8 text-[#FF00FF]">HACKING ENDS IN:</p>
+          <div className="grid grid-cols-4 gap-8">
             {[
               { value: timeLeft.days, label: 'DAYS' },
               { value: timeLeft.hours, label: 'HOURS' },
               { value: timeLeft.minutes, label: 'MINUTES' },
               { value: timeLeft.seconds, label: 'SECONDS' }
             ].map((time, i) => (
-              <div key={i} className="space-y-2">
-                <div className="font-pixel text-2xl text-[#FF00FF]">
+              <div key={i} className="space-y-4 bg-[#0B0B1E]/40 rounded-lg p-6 backdrop-blur-lg hover:bg-[#0B0B1E]/60 transition-all duration-300 group">
+                <div className="font-pixel text-4xl md:text-5xl text-[#FF00FF] group-hover:scale-110 transition-transform duration-300">
                   {time.value}
                 </div>
-                <div className="text-xs text-gray-400">{time.label}</div>
+                <div className="text-sm text-gray-400 font-pixel tracking-wider">{time.label}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Main Character */}
-        <div className="relative w-64 h-64 md:w-96 md:h-96 mx-auto mb-12">
+        {/* <div className="relative w-64 h-64 md:w-96 md:h-96 mx-auto mb-12">
             <img
               src="https://placehold.co/384x384/0B0B1E/FF00FF?text=Astronaut"
               alt="Pixel Art Astronaut Character"
@@ -127,7 +129,7 @@ export default function Home() {
               height="384"
               className="animate-float w-full h-full object-contain"
             />
-        </div>
+        </div> */}
       </section>
 
       {/* Schedule Section */}
