@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem; /* Adjust this value if your navbar height changes */
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 1, 1, 15;
@@ -167,6 +172,57 @@
 .down-arrow {
   animation: bounce-down 2.5s infinite;
   filter: drop-shadow(0 0 5px rgba(var(--neon-blue), 0.7));
+}
+
+@keyframes line-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255,0,255,0.7); }
+  50% { box-shadow: 0 0 20px rgba(255,0,255,1); }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% {
+    background-size: 200% 200%;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+  }
+  50% {
+    background-size: 250% 250%;
+    box-shadow: 0 0 25px rgba(255, 0, 255, 1);
+  }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem; /* 12px */
+  font-family: 'Space Mono', monospace;
+  border: 2px solid rgba(var(--neon-blue), 0.3);
+  padding: 0.75rem 1.5rem;
+  background: rgba(var(--neon-blue), 0.05);
+  transition: all 0.3s ease;
+}
+
+.terminal-header:hover {
+  background: rgba(var(--neon-blue), 0.1);
+  border-color: rgba(var(--neon-blue), 0.7);
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 15px #0ff,
+    0 0 25px #0ff,
+    0 0 35px #0ff;
+}
+
+.terminal-header .cursor {
+  width: 10px;
+  height: 1.5rem; /* 24px */
+  background-color: #00FFFF;
+  animation: blink-cursor 1s infinite step-end;
+  box-shadow: 0 0 5px #00FFFF;
 }
 
 .glitch-effect {

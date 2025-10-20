@@ -2,8 +2,17 @@
 import { useState, useEffect } from 'react';
 import StarField from '@/components/StarField';
 
+// Helper function to parse dates and calculate the difference in days
+const getDaysBetween = (dateStr1: string, dateStr2: string) => {
+  const d1 = new Date(dateStr1);
+  const d2 = new Date(dateStr2);
+  const diffTime = Math.abs(d2.getTime() - d1.getTime());
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};
+
 export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
+  const [scheduleIndex, setScheduleIndex] = useState(0); // State for schedule carousel
   const [timeLeft, setTimeLeft] = useState({
     days: '00',
     hours: '00',
@@ -40,14 +49,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const scheduleItems = [
-    { time: '10:00 AM', event: 'Opening Ceremony' },
-    { time: '11:00 AM', event: 'Team Formation' },
-    { time: '12:00 PM', event: 'Hacking Begins' },
-    { time: '06:00 PM', event: 'First Milestone Check' },
-    { time: '10:00 PM', event: 'Late Night Gaming' }
-  ];
-
   const prizes = [
       { place: '2nd', amount: '$1500', order: 2, image: '/images/trophy-2.png' },
       { place: '1st', amount: '$2500', order: 1, image: '/images/trophy-1.png' },
@@ -60,6 +61,15 @@ export default function Home() {
     { name: 'EDUCATION', icon: '📚' },
     { name: 'SOCIAL', icon: '🤝' }
   ];
+
+const scheduleItems = [
+  { date: "Apr 15", time: "12:00 AM", event: "Registration\nBegins" },
+  { date: "Aug 1", time: "12:00 AM", event: "Registration\nCloses" },
+  { date: "Aug 12", time: "10:00 AM", event: "Opening\nCeremony" },
+  { date: "Aug 14", time: "07:00 PM", event: "Closing\nCeremony" },
+  { date: "Aug 15", time: "12:00 PM", event: "Winners\nAnnounced" }
+];
+
 
   const faqItems = [
     "What does team making look like?",
@@ -159,16 +169,16 @@ export default function Home() {
               Race against time. Only the fastest survive.
             </p>
 
-            {/* NEW Digital Watch Countdown - Made Bigger and More Glowy */}
+            {/* NEW Digital Watch Countdown - With Bigger Dots */}
             <div className="mt-8 flex flex-col items-center">
               {/* The Numbers */}
               <div className="flex items-center justify-center font-pixel text-6xl md:text-8xl text-white tracking-widest" style={{ textShadow: '0 0 10px #fff, 0 0 20px #FF00FF, 0 0 35px #FF00FF, 0 0 50px #00FFFF' }}>
                 <span>{timeLeft.days}</span>
-                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
                 <span>{timeLeft.hours}</span>
-                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
                 <span>{timeLeft.minutes}</span>
-                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
                 <span>{timeLeft.seconds}</span>
               </div>
              
@@ -178,33 +188,101 @@ export default function Home() {
       </section>
 
 
-      {/* Schedule Section */}
-      <section id="schedule" className="py-20 relative">
+      {/* Schedule Section - Made Larger */}
+      <section id="schedule" className="py-32 relative scroll-mt-28">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-pixel text-2xl mb-12 text-center">SCHEDULE</h2>
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 h-full w-px bg-[#FF00FF]/20" />
-            <div className="space-y-16">
-              {scheduleItems.map((item, index) => (
-                <div key={index} className="flex items-center relative">
-                    <div className={`w-1/2 text-right pr-8 ${index % 2 !== 0 ? 'invisible' : ''}`}>
-                      <p className="font-pixel text-lg text-[#FF00FF]">{item.time}</p>
-                      <p className="font-pixel text-md mt-1">{item.event}</p>
-                    </div>
-                    <div className="w-4 h-4 rounded-full bg-[#FF00FF] absolute left-1/2 transform -translate-x-1/2 z-10 border-4 border-[#0B0B1E]"></div>
-                    <div className={`w-1/2 pl-8 ${index % 2 === 0 ? 'invisible' : ''}`}>
-                      <p className="font-pixel text-lg text-[#FF00FF]">{item.time}</p>
-                      <p className="font-pixel text-md mt-1">{item.event}</p>
-                    </div>
-                </div>
-              ))}
+          {/* New Terminal-Style Header with working hover */}
+          <div className="flex justify-center mb-24">
+            <div className="terminal-header group">
+              <h2 className="font-pixel text-2xl text-white transition-all duration-300 group-hover:[text-shadow:0_0_5px_#fff,0_0_10px_#fff,0_0_15px_#0ff,0_0_25px_#0ff,0_0_35px_#0ff]">cd SCHEDULE</h2>
+              <span className="cursor"></span>
             </div>
+          </div>
+          
+          {/* Timeline Carousel */}
+          <div className="relative flex items-center justify-center">
+            
+            {/* Bigger Arrow Left with No Background and Hover Effect */}
+            <button
+              onClick={() => setScheduleIndex(Math.max(0, scheduleIndex - 1))}
+              disabled={scheduleIndex === 0}
+              className="z-20 p-4 bg-transparent border-none transition-opacity duration-300 disabled:opacity-20 disabled:cursor-not-allowed"
+            >
+              <svg 
+                width="48" 
+                height="48" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="transition-all duration-300 drop-shadow-[0_0_5px_rgba(0,255,255,0.7)] hover:drop-shadow-[0_0_15px_rgba(0,255,255,1)] hover:scale-110"
+              >
+                <path d="M15 18L9 12L15 6" stroke="#00FFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            {/* Timeline Content */}
+            <div className="flex-grow relative overflow-hidden px-8">
+              {/* Animated Pink Connecting Line */}
+              <div className="absolute left-0 right-0 top-[50%] -translate-y-1/2 h-2 bg-pink-500" style={{ animation: 'line-pulse 2s infinite ease-in-out' }} />
+
+              {/* Timeline Events */}
+              <div className="flex justify-between items-center relative z-10" style={{ minHeight: '350px' }}>
+                {scheduleItems.slice(scheduleIndex, scheduleIndex + 3).map((item, index) => (
+                  <div key={index} className="flex flex-col items-center text-center w-1/3 group transition-transform duration-300 hover:scale-105 cursor-pointer">
+                    {/* Top Part: Date & Time */}
+                    <div className="mb-6 flex flex-col items-center">
+                      <div className="flex items-center gap-3">
+                        <span className="w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_5px_#ff0]"></span>
+                        <span className="font-mono text-2xl text-pink-400 transition-all duration-300 group-hover:text-yellow-300 group-hover:scale-110 group-hover:[text-shadow:0_0_8px_#ff0]">{item.date}</span>
+                      </div>
+                      <div className="flex items-center gap-3 mt-3">
+                        <span className="w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_5px_#ff0]"></span>
+                        <span className="block font-mono text-lg text-cyan-300 transition-all duration-300 group-hover:text-yellow-300 group-hover:scale-110 group-hover:[text-shadow:0_0_8px_#ff0]">{item.time}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Vertical Connector Line (Top) */}
+                    <div className="w-0.5 h-10 bg-pink-500/50 mb-2 group-hover:bg-pink-500 transition-colors"></div>
+                    
+                    {/* Big Yellow Ball */}
+                    <div className="w-14 h-14 rounded-full bg-yellow-400 border-[8px] border-[#01010F] shadow-[0_0_25px_rgba(255,255,0,0.7)] group-hover:shadow-[0_0_45px_rgba(255,255,0,1)] transition-shadow duration-300" />
+                    
+                    {/* Vertical Connector Line (Bottom) */}
+                    <div className="w-0.5 h-10 bg-pink-500/50 mt-2 group-hover:bg-pink-500 transition-colors"></div>
+
+                    {/* Bottom Part: Event Name */}
+                    <div className="mt-6 flex flex-col items-center">
+                      <div className="flex items-center gap-3"><span className="w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_5px_#ff0]"></span><div className="font-pixel text-lg text-white whitespace-pre-line group-hover:text-yellow-300 transition-colors">{item.event}</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bigger Arrow Right with No Background and Hover Effect */}
+            <button
+              onClick={() => setScheduleIndex(Math.min(scheduleItems.length - 3, scheduleIndex + 1))}
+              disabled={scheduleIndex >= scheduleItems.length - 3}
+              className="z-20 p-4 bg-transparent border-none transition-opacity duration-300 disabled:opacity-20 disabled:cursor-not-allowed"
+            >
+              <svg 
+                width="48" 
+                height="48" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="transition-all duration-300 drop-shadow-[0_0_5px_rgba(0,255,255,0.7)] hover:drop-shadow-[0_0_15px_rgba(0,255,255,1)] hover:scale-110"
+              >
+                <path d="M9 18L15 12L9 6" stroke="#00FFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       </section>
 
+
       {/* Prize Section */}
-      <section id="prize" className="py-20 bg-[#151531]/30">
+      <section id="prize" className="py-20 bg-[#151531]/30 scroll-mt-28">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="font-pixel text-2xl mb-12 text-center">PRIZE POOL</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
@@ -228,7 +306,7 @@ export default function Home() {
       </section>
 
       {/* Tracks Section */}
-      <section id="tracks" className="py-20">
+      <section id="tracks" className="py-20 scroll-mt-28">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="font-pixel text-2xl mb-12 text-center">TRACKS</h2>
           <div className="flex overflow-x-auto space-x-4 pb-4 track-scroll justify-center">
@@ -254,7 +332,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="info" className="py-20">
+      <section id="info" className="py-20 scroll-mt-28">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="font-pixel text-2xl mb-12 text-center">FAQ</h2>
           <div className="space-y-4">
@@ -272,7 +350,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-20 bg-[#151531]/30">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="font-pixel text-4xl mb-8 text-[#FF00FF]">STATUS CODE 1</h2>
+          <h2 className="font-pixel text-4xl mb-8 text-[#FF00FF]">404 SUCCESS</h2>
           <p className="font-pixel text-xl mb-8">Ready to Build Something Epic?</p>
           <button className="bg-[#FF00FF] px-8 py-4 rounded-sm font-pixel hover:bg-[#FF40FF] transition-colors">
             JOIN US
