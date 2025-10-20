@@ -1,7 +1,6 @@
 'use client'
-
 import { useState, useEffect } from 'react';
-import StarField from '../components/StarField';
+import StarField from '@/components/StarField';
 
 export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
@@ -14,8 +13,6 @@ export default function Home() {
 
   // --- Countdown Timer Logic ---
   useEffect(() => {
-    // Set a future date for the hackathon deadline.
-    // Let's set it to December 31, 2025 for this example.
     const countDownDate = new Date("Dec 31, 2025 23:59:59").getTime();
 
     const interval = setInterval(() => {
@@ -42,7 +39,6 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
-
 
   const scheduleItems = [
     { time: '10:00 AM', event: 'Opening Ceremony' },
@@ -74,63 +70,113 @@ export default function Home() {
     "Can travel costs be covered for selected participants?"
   ];
 
-
   return (
-    <main className="min-h-screen bg-[#0B0B1E] text-white overflow-x-hidden">
+    <main className="min-h-screen bg-[#040942] text-white overflow-x-hidden">
       <StarField />
+      
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0B0B1E]/80 backdrop-blur-sm border-b border-[#FF00FF]/20">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex space-x-8">
-            {['SCHEDULE', 'TRACKS', 'PRIZE', 'INFO'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="font-pixel text-sm hover:text-[#FF00FF] transition-colors">
-                {item}
+      <nav className="fixed top-0 w-full z-50 bg-[#040942]/90 backdrop-blur-md border-b-2 border-[#FF00FF]/30">
+        <div className="w-full px-8 py-6">
+          <div className="flex items-center justify-between">
+            {/* LEFT - 404 ERROR */}
+            <div className="flex-shrink-0 w-1/4">
+              <h1 className="text-3xl font-bold text-white tracking-wider neon-text font-pixel">
+                404 SUCCESS
+              </h1>
+            </div>
+
+            {/* CENTER - Navigation Links */}
+            <div className="flex flex-auto items-center justify-center gap-x-12">
+              <a href="#schedule" className="text-white font-bold text-sm hover:text-pink-400 transition uppercase tracking-widest">
+                SCHEDULE
               </a>
-            ))}
+              <a href="#tracks" className="text-white font-bold text-sm hover:text-pink-400 transition uppercase tracking-widest">
+                TRACKS
+              </a>
+              <a href="#prize" className="text-white font-bold text-sm hover:text-cyan-400 transition uppercase tracking-widest">
+                PRIZE
+              </a>
+              <a href="#info" className="text-white font-bold text-sm hover:text-purple-400 transition uppercase tracking-widest">
+                INFO
+              </a>
+            </div>
+
+            {/* RIGHT - POWERED BY BIAS */}
+            <div className="flex-shrink-0 w-1/4 flex justify-end">
+              <span className="text-lg font-bold text-white tracking-wider neon-text">
+                POWERED BY BIAS
+              </span>
+            </div>
           </div>
-          <button className="bg-[#FF00FF] px-4 py-2 rounded-sm font-pixel text-sm hover:bg-[#FF40FF] transition-colors">
-            Join Us
-          </button>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-40 text-center relative">
-        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10" />
-        <h1 className="font-pixel text-6xl mb-4 text-glow">STATUS CODE 1</h1>
-        <p className="text-[#FF00FF] mb-12 font-pixel text-xl">Build to Discover!</p>
-        
-        {/* Timer */}
-        <div className="max-w-3xl mx-auto bg-[#151531]/50 rounded-xl p-10 mb-20 backdrop-blur-md border border-[#FF00FF]/10 hover:border-[#FF00FF]/30 transition-colors duration-500">
-          <p className="font-pixel text-xl mb-8 text-[#FF00FF]">HACKING ENDS IN:</p>
-          <div className="grid grid-cols-4 gap-8">
-            {[
-              { value: timeLeft.days, label: 'DAYS' },
-              { value: timeLeft.hours, label: 'HOURS' },
-              { value: timeLeft.minutes, label: 'MINUTES' },
-              { value: timeLeft.seconds, label: 'SECONDS' }
-            ].map((time, i) => (
-              <div key={i} className="space-y-4 bg-[#0B0B1E]/40 rounded-lg p-6 backdrop-blur-lg hover:bg-[#0B0B1E]/60 transition-all duration-300 group">
-                <div className="font-pixel text-4xl md:text-5xl text-[#FF00FF] group-hover:scale-110 transition-transform duration-300">
-                  {time.value}
-                </div>
-                <div className="text-sm text-gray-400 font-pixel tracking-wider">{time.label}</div>
-              </div>
-            ))}
-          </div>
+      {/* Hero Section - Restructured Layout */}
+      <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden px-6 py-8">
+        {/* Top Content */}
+        <div className="relative z-10 text-center">
+          <h1 className="font-pixel text-8xl mb-4 text-3d-pink">
+            404 SUCCESS
+          </h1>
+          <p className="text-shaded-purple font-pixel text-2xl mb-12">
+            Time’s Running Out. Code’s Heating Up
+          </p>
         </div>
 
-        {/* Main Character */}
-        {/* <div className="relative w-64 h-64 md:w-96 md:h-96 mx-auto mb-12">
-            <img
-              src="https://placehold.co/384x384/0B0B1E/FF00FF?text=Astronaut"
-              alt="Pixel Art Astronaut Character"
-              width="384"
-              height="384"
-              className="animate-float w-full h-full object-contain"
-            />
-        </div> */}
+        {/* Fullscreen Buggy Monster - Made larger and placed in the center */}
+        <div className="relative z-10 my-8">
+          <img
+            src="https://emojigraph.org/media/facebook/alien-monster_1f47e.png" // replace with your custom monster PNG/SVG
+            alt="Buggy Monster"
+            className="w-full max-w-5xl object-contain animate-pulse"
+          />
+        </div>
+
+        {/* New Description Section */}
+        <div className="relative z-10 flex flex-col items-center gap-8 max-w-3xl text-center">
+          <p className="text-lg text-gray-300 font-sans leading-relaxed fade-out-text">
+            Dive into a 48-hour coding marathon where innovation meets chaos. Build, break, and redefine the future. Whether you're a seasoned developer or a curious newcomer, join us to tackle real-world challenges, learn new skills, and compete for epic prizes. The only limit is your imagination.
+          </p>
+          <a href="#schedule" className="down-arrow">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="rgba(var(--neon-blue), 0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M8 12L12 16L16 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M12 8V16" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        {/* Bottom Content (Timer) */}
+        <div className="relative z-10 w-full mt-16">
+          {/* This container now only handles layout, not appearance, and centers its content */}
+          <div className="max-w-4xl mx-auto text-center">
+            
+            {/* Urgent Header with Glitch Effect */}
+            <p className="font-pixel text-xl mb-2 text-[#FF00FF] glitch">
+              HURRY UP! 
+            </p>
+            <p className="font-pixel text-sm mb-8 text-gray-400 tracking-widest uppercase">
+              Race against time. Only the fastest survive.
+            </p>
+
+            {/* NEW Digital Watch Countdown - Made Bigger and More Glowy */}
+            <div className="mt-8 flex flex-col items-center">
+              {/* The Numbers */}
+              <div className="flex items-center justify-center font-pixel text-6xl md:text-8xl text-white tracking-widest" style={{ textShadow: '0 0 10px #fff, 0 0 20px #FF00FF, 0 0 35px #FF00FF, 0 0 50px #00FFFF' }}>
+                <span>{timeLeft.days}</span>
+                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span>{timeLeft.hours}</span>
+                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span>{timeLeft.minutes}</span>
+                <span className="text-5xl md:text-7xl text-cyan-400 animate-pulse mx-4">:</span>
+                <span>{timeLeft.seconds}</span>
+              </div>
+             
+            </div>
+          </div>
+        </div>
       </section>
+
 
       {/* Schedule Section */}
       <section id="schedule" className="py-20 relative">
