@@ -257,6 +257,13 @@ html {
   animation: glitch 2s infinite linear alternate-reverse;
 }
 
+.section-grid-background {
+  background-image:
+    linear-gradient(to right, rgba(var(--neon-blue), 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--neon-blue), 0.1) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+}
+
 .timeline-dot::before {
   content: '';
   position: absolute;

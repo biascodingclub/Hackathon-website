@@ -50,9 +50,9 @@ export default function Home() {
   }, []);
 
   const prizes = [
-      { place: '2nd', amount: '$1500', order: 2, image: '/images/trophy-2.png' },
-      { place: '1st', amount: '$2500', order: 1, image: '/images/trophy-1.png' },
-      { place: '3rd', amount: '$1000', order: 3, image: '/images/trophy-3.png' }
+    { place: '1st RUNNER UP', amount: '$1500', order: 2, image: 'https://imgs.search.brave.com/B7UTLhT3plAlEVht3_2Ie5LM9JBSvAr1Goe0g7n8NNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wdXJl/cG5nLmNvbS9wdWJs/aWMvdXBsb2Fkcy90/aHVtYm5haWwvL3B1/cmVwbmcuY29tLWdv/bGQtY3VwLXRyb3Bo/eWdvbGRlbi1jdXBn/b2xkdHJvcGh5bWVk/YWxhd2FyZC0xNDIx/NTI2NTM0OTIzdHRr/d2sucG5n' },
+      { place: 'WINNER', amount: '$2500', order: 1, image: 'https://imgs.search.brave.com/B7UTLhT3plAlEVht3_2Ie5LM9JBSvAr1Goe0g7n8NNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wdXJl/cG5nLmNvbS9wdWJs/aWMvdXBsb2Fkcy90/aHVtYm5haWwvL3B1/cmVwbmcuY29tLWdv/bGQtY3VwLXRyb3Bo/eWdvbGRlbi1jdXBn/b2xkdHJvcGh5bWVk/YWxhd2FyZC0xNDIx/NTI2NTM0OTIzdHRr/d2sucG5n' },
+      { place: '2nd RUNNER UP', amount: '$1000', order: 3, image: 'https://imgs.search.brave.com/B7UTLhT3plAlEVht3_2Ie5LM9JBSvAr1Goe0g7n8NNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wdXJl/cG5nLmNvbS9wdWJs/aWMvdXBsb2Fkcy90/aHVtYm5haWwvL3B1/cmVwbmcuY29tLWdv/bGQtY3VwLXRyb3Bo/eWdvbGRlbi1jdXBn/b2xkdHJvcGh5bWVk/YWxhd2FyZC0xNDIx/NTI2NTM0OTIzdHRr/d2sucG5n' }
   ];
 
   const tracks = [
@@ -282,28 +282,65 @@ const scheduleItems = [
 
 
       {/* Prize Section */}
-      <section id="prize" className="py-20 bg-[#151531]/30 scroll-mt-28">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-pixel text-2xl mb-12 text-center">PRIZE POOL</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
-            {prizes.sort((a,b) => a.order - b.order).map((prize) => (
-              <div key={prize.place} className={`text-center flex flex-col items-center ${prize.order === 1 ? 'md:order-2' : (prize.order === 2 ? 'md:order-1' : 'md:order-3')}`}>
-                <div className={`relative w-40 h-40 mb-4 ${prize.order === 1 ? 'md:w-52 md:h-52' : ''}`}>
-                  <img
-                    src={`https://placehold.co/208x208/151531/FF00FF?text=Trophy`}
-                    alt={`${prize.place} Place Trophy`}
-                    width={prize.order === 1 ? 208 : 160}
-                    height={prize.order === 1 ? 208 : 160}
-                    className="animate-float w-full h-full object-contain"
-                  />
-                </div>
-                <p className={`font-pixel text-[#FF00FF] ${prize.order === 1 ? 'text-3xl' : 'text-xl'}`}>{prize.amount}</p>
-                <p className="text-sm text-gray-400 mt-2">{prize.place} Place</p>
-              </div>
-            ))}
+      <section
+  id="prize"
+  className="py-20 bg-[#151531]/30 scroll-mt-28 relative"
+>
+  <div className="max-w-5xl mx-auto px-4">
+    {/* New Terminal-Style Header */}
+    <div className="flex justify-center mb-10">
+      <div className="terminal-header group">
+        <h2 className="font-pixel text-2xl text-white transition-all duration-300 group-hover:[text-shadow:0_0_5px_#fff,0_0_10px_#fff,0_0_15px_#0ff,0_0_25px_#0ff,0_0_35px_#0ff]">cd PRIZE-POOL</h2>
+        <span className="cursor"></span>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center">
+      {prizes
+        .sort((a, b) => a.order - b.order)
+        .map((prize) => (
+          <div
+            key={prize.place}
+            className={`
+              group relative text-center flex flex-col items-center p-6 rounded-xl transition-all duration-500
+              border border-transparent hover:border-[#FF00FF]/50 hover:shadow-[0_0_20px_#FF00FF55]
+              ${prize.order === 1 ? "md:order-2 scale-110" : (prize.order === 2 ? "md:order-1" : "md:order-3")}
+            `}
+          >
+            {/* Floating trophy image */}
+            <div
+              className={`relative mt-4 mb-4 transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-2
+              ${prize.order === 1 ? "w-20 h-20" : "w-15 h-14"}`}
+            >
+              <img
+                src="https://imgs.search.brave.com/YvDTUmdpobhLoikXpdRJt7OGnnHR6AS8fPWvilEbZiE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTYvVmlj/dG9yeS1Hb2xkZW4t/Q3VwLVBORy1GaWxl/LnBuZw"
+                width={prize.order === 1 ? 96 : 80}
+                height={prize.order === 1 ? 96 : 80}
+                className="animate-float  object-contain drop-shadow-[0_0_15px_#FF00FF55]"
+              />
+            </div>
+
+            {/* Amount */}
+            <p
+              className={`font-pixel text-[#FF00FF] transition-all duration-500 group-hover:scale-110
+              ${prize.order === 1 ? "text-4xl" : "text-2xl"}`}
+            >
+              {prize.amount}
+            </p>
+
+            {/* Place text */}
+            <p className="text-sm text-gray-400 mt-2 group-hover:text-white tracking-wider">
+              {prize.place} 
+            </p>
+
+            {/* Background glow on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl bg-gradient-to-b from-[#FF00FF]/10 to-transparent pointer-events-none"></div>
           </div>
-        </div>
-      </section>
+        ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Tracks Section */}
       <section id="tracks" className="py-20 scroll-mt-28">
