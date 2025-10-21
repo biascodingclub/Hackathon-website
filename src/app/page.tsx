@@ -13,6 +13,7 @@ const getDaysBetween = (dateStr1: string, dateStr2: string) => {
 export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [scheduleIndex, setScheduleIndex] = useState(0); // State for schedule carousel
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState({
     days: '00',
     hours: '00',
@@ -72,12 +73,30 @@ const scheduleItems = [
 
 
   const faqItems = [
-    "What does team making look like?",
-    "Who can participate?",
-    "How do we participate in this hackathon?",
-    "Are there prerequisites to participate?",
-    "Is food and accommodation provided free of charge?",
-    "Can travel costs be covered for selected participants?"
+    {
+      question: "What does team making look like?",
+      answer: "You can form teams of up to 4 members. You can either come with a pre-formed team or find teammates during our team formation event at the start of the hackathon. We'll have dedicated channels for you to connect with others."
+    },
+    {
+      question: "Who can participate?",
+      answer: "Everyone is welcome! Students, professionals, designers, and developers from all backgrounds are encouraged to participate. You must be 18 years or older to join."
+    },
+    {
+      question: "How do we participate in this hackathon?",
+      answer: "Simply hit the 'JOIN US' button on this page and complete the registration form. Once registered, you'll receive all necessary information via email."
+    },
+    {
+      question: "Are there prerequisites to participate?",
+      answer: "No specific prerequisites! We only ask that you come with a passion for learning and building. All skill levels are welcome, from beginners to seasoned experts."
+    },
+    {
+      question: "Is food and accommodation provided free of charge?",
+      answer: "Yes, for all in-person participants, we will provide meals, snacks, and a designated resting area throughout the 48-hour event, completely free of charge."
+    },
+    {
+      question: "Can travel costs be covered for selected participants?",
+      answer: "We may offer travel reimbursements for a limited number of participants based on distance and need. Please check the official rules page after registration for details on how to apply."
+    }
   ];
 
   return (
@@ -368,16 +387,42 @@ const scheduleItems = [
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section - INTERACTIVE ACCORDION */}
       <section id="info" className="py-20 scroll-mt-28">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="font-pixel text-2xl mb-12 text-center">FAQ</h2>
+          {/* Terminal-Style Header */}
+          <div className="flex justify-center mb-16">
+            <div className="terminal-header group">
+              <h2 className="font-pixel text-2xl text-white transition-all duration-300 group-hover:[text-shadow:0_0_5px_#fff,0_0_10px_#fff,0_0_15px_#0ff,0_0_25px_#0ff,0_0_35px_#0ff]">cd FAQ</h2>
+              <span className="cursor"></span>
+            </div>
+          </div>
+
           <div className="space-y-4">
-            {faqItems.map((question, index) => (
-              <div key={index} className="bg-[#151531] rounded-lg p-6 hover:border hover:border-[#FF00FF]/50 transition-all cursor-pointer">
-                <p className="font-pixel text-sm">
-                  <span className="text-[#FF00FF]">{index + 1}]</span> {question}
-                </p>
+            {faqItems.map((item, index) => (
+              <div key={index} className="bg-[#151531]/80 rounded-lg border border-pink-500/20 overflow-hidden">
+                <button
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                  className="w-full flex justify-between items-center text-left p-6 group"
+                >
+                  <p className="font-pixel text-sm text-white group-hover:text-pink-400 transition-colors">
+                    {item.question}
+                  </p>
+                  <div className="text-pink-400 text-2xl font-mono transition-transform duration-300 group-hover:scale-125">
+                    {openFaqIndex === index ? '-' : '+'}
+                  </div>
+                </button>
+                <div
+                  className={`grid transition-all duration-500 ease-in-out ${
+                    openFaqIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-gray-300 font-sans p-6 pt-0">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
