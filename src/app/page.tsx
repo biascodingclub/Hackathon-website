@@ -14,6 +14,7 @@ export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [scheduleIndex, setScheduleIndex] = useState(0); // State for schedule carousel
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [scrollY, setScrollY] = useState(0);
   const [timeLeft, setTimeLeft] = useState({
     days: '00',
     hours: '00',
@@ -50,6 +51,14 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const prizes = [
     { place: '1st RUNNER UP', amount: '$1500', order: 2, image: 'https://imgs.search.brave.com/B7UTLhT3plAlEVht3_2Ie5LM9JBSvAr1Goe0g7n8NNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wdXJl/cG5nLmNvbS9wdWJs/aWMvdXBsb2Fkcy90/aHVtYm5haWwvL3B1/cmVwbmcuY29tLWdv/bGQtY3VwLXRyb3Bo/eWdvbGRlbi1jdXBn/b2xkdHJvcGh5bWVk/YWxhd2FyZC0xNDIx/NTI2NTM0OTIzdHRr/d2sucG5n' },
       { place: 'WINNER', amount: '$2500', order: 1, image: 'https://imgs.search.brave.com/B7UTLhT3plAlEVht3_2Ie5LM9JBSvAr1Goe0g7n8NNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wdXJl/cG5nLmNvbS9wdWJs/aWMvdXBsb2Fkcy90/aHVtYm5haWwvL3B1/cmVwbmcuY29tLWdv/bGQtY3VwLXRyb3Bo/eWdvbGRlbi1jdXBn/b2xkdHJvcGh5bWVk/YWxhd2FyZC0xNDIx/NTI2NTM0OTIzdHRr/d2sucG5n' },
@@ -57,10 +66,8 @@ export default function Home() {
   ];
 
   const tracks = [
-    { name: 'MEDICAL', icon: '🏥' },
-    { name: 'FINANCE', icon: '💰' },
-    { name: 'EDUCATION', icon: '📚' },
-    { name: 'SOCIAL', icon: '🤝' }
+
+   
   ];
 
 const scheduleItems = [
@@ -188,19 +195,42 @@ const scheduleItems = [
               Race against time. Only the fastest survive.
             </p>
 
-            {/* NEW Digital Watch Countdown - With Bigger Dots */}
-            <div className="mt-8 flex flex-col items-center">
-              {/* The Numbers */}
-              <div className="flex items-center justify-center font-pixel text-6xl md:text-8xl text-white tracking-widest" style={{ textShadow: '0 0 10px #fff, 0 0 20px #FF00FF, 0 0 35px #FF00FF, 0 0 50px #00FFFF' }}>
-                <span>{timeLeft.days}</span>
-                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
-                <span>{timeLeft.hours}</span>
-                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
-                <span>{timeLeft.minutes}</span>
-                <span className="text-6xl md:text-8xl text-cyan-400 animate-pulse mx-4">:</span>
-                <span>{timeLeft.seconds}</span>
+            {/* NEW Digital Watch Countdown - With Labels */}
+            <div className="mt-22 flex flex-col items-center">
+              <div 
+                className="flex items-start justify-center gap-x-4 md:gap-x-8"
+                style={{ textShadow: '0 0 10px #fff, 0 0 20px #FF00FF, 0 0 35px #FF00FF, 0 0 50px #00FFFF' }}
+              >
+                {/* Days */}
+                <div className="flex flex-col items-center">
+                  <span className="font-pixel text-6xl md:text-8xl text-white tracking-widest">{timeLeft.days}</span>
+                  <span className="font-pixel text-xs md:text-sm text-gray-400 mt-2 tracking-widest">DAYS</span>
+                </div>
+
+                <span className="font-pixel text-5xl md:text-7xl text-cyan-400 animate-pulse pt-1">:</span>
+
+                {/* Hours */}
+                <div className="flex flex-col items-center">
+                  <span className="font-pixel text-6xl md:text-8xl text-white tracking-widest">{timeLeft.hours}</span>
+                  <span className="font-pixel text-xs md:text-sm text-gray-400 mt-2 tracking-widest">HOURS</span>
+                </div>
+
+                <span className="font-pixel text-5xl md:text-7xl text-cyan-400 animate-pulse pt-1">:</span>
+
+                {/* Minutes */}
+                <div className="flex flex-col items-center">
+                  <span className="font-pixel text-6xl md:text-8xl text-white tracking-widest">{timeLeft.minutes}</span>
+                  <span className="font-pixel text-xs md:text-sm text-gray-400 mt-2 tracking-widest">MINUTES</span>
+                </div>
+
+                <span className="font-pixel text-5xl md:text-7xl text-cyan-400 animate-pulse pt-1">:</span>
+
+                {/* Seconds */}
+                <div className="flex flex-col items-center">
+                  <span className="font-pixel text-6xl md:text-8xl text-white tracking-widest">{timeLeft.seconds}</span>
+                  <span className="font-pixel text-xs md:text-sm text-gray-400 mt-2 tracking-widest">SECONDS</span>
+                </div>
               </div>
-             
             </div>
           </div>
         </div>
@@ -361,31 +391,43 @@ const scheduleItems = [
 </section>
 
 
-      {/* Tracks Section */}
-      <section id="tracks" className="py-20 scroll-mt-28">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="font-pixel text-2xl mb-12 text-center">TRACKS</h2>
-          <div className="flex overflow-x-auto space-x-4 pb-4 track-scroll justify-center">
-            {tracks.map((track, index) => (
-              <div
-                key={track.name}
-                onClick={() => setCurrentTrack(index)}
-                className={`flex-none w-80 h-48 bg-[#151531] rounded-lg p-6 cursor-pointer transition-all ${
-                  currentTrack === index
-                    ? 'border-2 border-[#FF00FF] transform scale-105'
-                    : 'hover:border hover:border-[#FF00FF]/50'
-                }`}
-              >
-                <div className="text-4xl mb-4">{track.icon}</div>
-                <h3 className="font-pixel text-lg mb-4 text-[#FF00FF]">{track.name}</h3>
-                <p className="text-sm text-gray-400">
-                  Build innovative solutions in the {track.name.toLowerCase()} sector.
-                </p>
-              </div>
-            ))}
-          </div>
+      {/* Tracks Section - OUT OF THE BOX REDESIGN */}
+     {/* TRACKS SECTION */}
+<section id="tracks" className="py-32 relative scroll-mt-28">
+  <div className="max-w-6xl mx-auto px-4">
+    {/* New Terminal-Style Header */}
+    <div className="flex justify-center mb-16">
+      <div className="terminal-header group">
+        <h2 className="font-pixel text-2xl text-white transition-all duration-300 group-hover:[text-shadow:0_0_5px_#fff,0_0_10px_#fff,0_0_15px_#0ff,0_0_25px_#0ff,0_0_35px_#0ff]">cd TRACKS</h2>
+        <span className="cursor"></span>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {[
+        { title: "AI & ML", desc: "Train it. Break it. Make it smarter." },
+        { title: "Web & App Dev", desc: "Build futuristic user experiences." },
+        { title: "Cybersecurity", desc: "Hack. Secure. Repeat." },
+        { title: "Blockchain", desc: "Trustless. Immutable. Decentralized." },
+      ].map((track, i) => (
+        <div
+          key={i}
+          className="group p-6 bg-[#0a0f3d] rounded-2xl border border-[#FF00FF]/30 hover:border-cyan-400 
+          hover:transition-all duration-300 cursor-pointer shadow-lg 
+          hover:shadow-[0_0_20px_#00FFFF]"
+        >
+          <h3 className="font-pixel text-2xl text-cyan-300 group-hover:text-yellow-300 transition-all mb-4">
+            {track.title}
+          </h3>
+          <p className="text-gray-300 text-sm leading-relaxed">{track.desc}</p>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+
 
       {/* FAQ Section - INTERACTIVE ACCORDION */}
       <section id="info" className="py-20 scroll-mt-28">
@@ -429,28 +471,37 @@ const scheduleItems = [
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-20 bg-[#151531]/30">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="font-pixel text-4xl mb-8 text-[#FF00FF]">404 SUCCESS</h2>
-          <p className="font-pixel text-xl mb-8">Ready to Build Something Epic?</p>
-          <button className="bg-[#FF00FF] px-8 py-4 rounded-sm font-pixel hover:bg-[#FF40FF] transition-colors">
-            JOIN US
-          </button>
-          
-          <div className="mt-16">
-            <div className="relative h-32 w-full">
-              <img
-                src="https://placehold.co/1200x128/0B0B1E/FF00FF?text=Footer+Scene"
-                alt="Footer Scene"
-                width="1200"
-                height="128"
-                className="object-contain w-full h-full"
-              />
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer - CINEMATIC REDESIGN */}
+    {/* FOOTER SECTION */}
+<footer className="mt-32 bg-[#020635] pt-16 pb-6 border-t border-[#FF00FF]/30 relative overflow-hidden">
+  {/* Glowing Top Border */}
+  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-pink-500 via-cyan-400 to-purple-500 animate-pulse"></div>
+
+  <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+    <div>
+      <h3 className="font-pixel text-xl text-white">404 SUCCESS</h3>
+      <p className="mt-3 text-sm text-gray-400">
+        Where bugs are friends and caffeine is fuel.
+      </p>
+    </div>
+
+    <div>
+      <h4 className="font-pixel text-lg mb-3 text-white">Follow Us</h4>
+      <div className="flex justify-center md:justify-start gap-6">
+        {["🌐", "📸", "🐦"].map((icon, i) => (
+          <span
+            key={i}
+            className="text-2xl hover:scale-125 hover:drop-shadow-[0_0_10px_#00FFFF] transition-all cursor-pointer"
+          >
+            {icon}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <p className="text-gray-500 text-xs mt-10 text-center">Made with ❤️ & caffeine at BIAS</p>
+</footer>
     </main>
   );
 }
