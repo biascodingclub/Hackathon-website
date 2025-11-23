@@ -3,19 +3,30 @@ import { useEffect, useState } from 'react'
 
 function generateStars() {
   const stars = []
-  for (let i = 0; i < 150; i++) {
-    const size = Math.random() * 4 + 3;
-    const animationType = Math.random();
+  const palette = ['#FF00FF','#00FFFF','#FFD700','#FF6EC7','#7CFFEA','#FFFFFF']
+  for (let i = 0; i < 160; i++) {
+    const size = Math.random() * 3.2 + 2.2
+    const animationType = Math.random()
+    const color = palette[Math.floor(Math.random() * palette.length)]
+    const glow = `${color}88`
+    const isComet = Math.random() < 0.06
     stars.push({
       top: `${Math.random() * 100}vh`,
       left: `${Math.random() * 100}vw`,
       animationDelay: `${Math.random() * 4}s`,
-      size: `${size}px`,
-      opacity: Math.random() * 0.3 + 0.7,
+      width: `${size}px`,
+      height: `${size}px`,
+      opacity: Math.random() * 0.35 + 0.65,
       animationDuration: `${Math.random() * 3 + 2}s`,
-      animation: animationType > 0.7 ? 'float' : '',
+      animation: animationType > 0.75 ? 'float' : '',
       twinkleIntensity: Math.random() * 0.5 + 1.0,
       parallaxSpeed: Math.random() * 0.5 + 0.3,
+      color,
+      glow,
+      type: isComet ? 'comet' : 'star',
+      cometLength: isComet ? (Math.random() * 90 + 50) : 0,
+      cometAngle: isComet ? (Math.random() * 40 - 20) : 0,
+      cometOpacity: isComet ? (Math.random() * 0.5 + 0.35) : 0,
     })
   }
   return stars
@@ -94,8 +105,23 @@ function StarField() {
   return (
     <div className="fixed inset-0 pointer-events-none" style={{ backgroundColor: '#01010F' }}>
       {/* Layer 1: Farthest Stars (no parallax) */}
-      {stars.slice(0, 50).map((star, i) => (
-        <div key={`far-star-${i}`} className="star" style={{ ...star, transform: 'scale(0.7)', opacity: star.opacity * 0.5 }} />
+      {stars.slice(0, 55).map((star, i) => (
+        <div
+          key={`far-star-${i}`}
+          className="star"
+          style={{
+            top: star.top,
+            left: star.left,
+            width: star.width,
+            height: star.height,
+            opacity: star.opacity * 0.5,
+            animationDelay: star.animationDelay,
+            animation: `twinkle ${star.animationDuration} ease-in-out infinite`,
+            background: `radial-gradient(circle at 30% 30%, ${star.color}, transparent 70%)`,
+            boxShadow: `0 0 4px ${star.glow}, 0 0 12px ${star.glow}`,
+            transform: 'scale(0.7)'
+          }}
+        />
       ))}
 
       {/* Layer 2: SVG Mountains with Neon Glow */}
@@ -155,7 +181,7 @@ function StarField() {
       ))}
 
       {/* Layer 6: Mid-ground Stars */}
-      {stars.slice(50).map((star, i) => {
+      {stars.slice(55).map((star, i) => {
         const starLeft = parseFloat(star.left)
         const starTop = parseFloat(star.top)
         const distanceX = (mousePosition.x / window.innerWidth * 100 - starLeft)
@@ -164,16 +190,52 @@ function StarField() {
         const isNearMouse = distance < 15
         const mouseTwinkle = isNearMouse ? 0.5 : 0
 
+        if (star.type === 'comet') {
+          return (
+            <div key={`comet-${i}`} style={{ position: 'absolute', top: star.top, left: star.left }}>
+              <div
+                className="comet-tail"
+                style={{
+                  width: `${star.cometLength}px`,
+                  height: '2px',
+                  transform: `rotate(${star.cometAngle}deg) translateY(-50%)`,
+                  transformOrigin: 'left center',
+                  background: `linear-gradient(90deg, ${star.color} 0%, transparent 90%)`,
+                  opacity: star.cometOpacity,
+                  filter: `drop-shadow(0 0 6px ${star.glow})`,
+                  animationDelay: star.animationDelay
+                }}
+              />
+              <div
+                className="star"
+                style={{
+                  width: star.width,
+                  height: star.height,
+                  transform: `translateY(${scrollY * star.parallaxSpeed}px)`,
+                  animation: `twinkle ${star.animationDuration} ease-in-out infinite`,
+                  background: `radial-gradient(circle at 30% 30%, ${star.color}, transparent 70%)`,
+                  boxShadow: `0 0 8px ${star.glow}, 0 0 18px ${star.glow}`,
+                  filter: `brightness(${star.twinkleIntensity + mouseTwinkle})`
+                }}
+              />
+            </div>
+          )
+        }
         return (
           <div
             key={`mid-star-${i}`}
             className="star"
             style={{
-              ...star,
+              top: star.top,
+              left: star.left,
+              width: star.width,
+              height: star.height,
               animation: star.animation ? `twinkle ${star.animationDuration} ease-in-out infinite, ${star.animation} ${star.animationDuration} ease-in-out infinite` : `twinkle ${star.animationDuration} ease-in-out infinite`,
               filter: `brightness(${star.twinkleIntensity + mouseTwinkle})`,
               transform: `translateY(${scrollY * star.parallaxSpeed}px)`,
               transition: 'filter 0.3s ease-out, transform 0.1s ease-out',
+              background: `radial-gradient(circle at 30% 30%, ${star.color}, transparent 70%)`,
+              boxShadow: `0 0 6px ${star.glow}, 0 0 16px ${star.glow}`
             }}
           />
         )
