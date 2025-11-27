@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 
 function generateStars() {
   const stars = []
-  const palette = ['#FF00FF','#00FFFF','#FFD700','#FF6EC7','#7CFFEA','#FFFFFF']
-  for (let i = 0; i < 160; i++) {
+  const palette = ['#FF00FF', '#00FFFF', '#FFD700', '#FF6EC7', '#7CFFEA', '#FFFFFF']
+  for (let i = 0; i < 300; i++) {
     const size = Math.random() * 3.2 + 2.2
     const animationType = Math.random()
     const color = palette[Math.floor(Math.random() * palette.length)]
     const glow = `${color}88`
-    const isComet = Math.random() < 0.06
+    const isComet = Math.random() < 0.15
     stars.push({
       top: `${Math.random() * 100}vh`,
       left: `${Math.random() * 100}vw`,
@@ -70,7 +70,7 @@ function StarField() {
   const [stars, setStars] = useState<Array<any>>([])
   const [nebulae, setNebulae] = useState<Array<any>>([])
   const [planets, setPlanets] = useState<Array<any>>([])
-  
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [scrollY, setScrollY] = useState(0)
 
@@ -91,7 +91,7 @@ function StarField() {
 
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('scroll', handleScroll, { passive: true })
-    
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
@@ -135,8 +135,8 @@ function StarField() {
         <svg width="100%" height="100%" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice">
           <defs>
             <filter id="mountainGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="0" stdDeviation="10" floodColor="#FF00FF" floodOpacity="0.3"/>
-              <feDropShadow dx="0" dy="0" stdDeviation="20" floodColor="#FF00FF" floodOpacity="0.2"/>
+              <feDropShadow dx="0" dy="0" stdDeviation="10" floodColor="#FF00FF" floodOpacity="0.3" />
+              <feDropShadow dx="0" dy="0" stdDeviation="20" floodColor="#FF00FF" floodOpacity="0.2" />
             </filter>
           </defs>
           <path d="M-200,400 L250,150 L500,300 L750,100 L1000,250 L1250,120 L1640,400 Z" fill="none" stroke="#FF00FF" strokeWidth="2" filter="url(#mountainGlow)" />

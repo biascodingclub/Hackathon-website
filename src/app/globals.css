@@ -22,7 +22,9 @@
 /* Smooth scroll behavior with navbar offset */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 80px;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -32,6 +34,8 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 /* Soft radial overlays for subtle depth */
